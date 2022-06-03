@@ -1,0 +1,15 @@
+= System of Linear Equations
+
+== System of Sentences
+
+* *Non-singular system*: carries as many pieces of information as sentences -> complete system.
+* *Singular system*: carries contradictory of redundent information.
+
+== System of Equations
+
+* A system has _finite solutions_ when it is complete and non-singular.
+* A system has _infinite solutions_ if not enough information exists, redundent and singular.
+* A system has _no-solution_ if information is contradictory, singular system.
+
+
+
