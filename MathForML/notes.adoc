@@ -5,11 +5,69 @@
 * *Non-singular system*: carries as many pieces of information as sentences -> complete system.
 * *Singular system*: carries contradictory of redundent information.
 
-== System of Equations
+== System of Equations - 2 variables
+Each equation is represented as a line in an orthogonal 2-axis co-ordinate system.
+Matrix representation is 2x2.
 
+=== Non-singular
 * A system has _finite solutions_ when it is complete and non-singular.
-* A system has _infinite solutions_ if not enough information exists, redundent and singular.
-* A system has _no-solution_ if information is contradictory, singular system.
+** Lines intersect at a unique point
+
+* Forms a non-singular matrix, rows are linearly _independent_. Determinant is non-zero.
+
+=== Singular
+
+* A system has _infinite solutions_ if not enough information exists, redundent.
+** Lines are co-incident
+* A system has _no-solution_ if information is contradictory.
+** Lines are parallel to each other
+
+
+* Forms a singular matrix. Rows are linearly dependent, determinant is zero.
+
+== System of Equations - 3 variables
+Each equation is represented as a plane in an orthogonal 3-axis co-ordinate system.
+Matrix representation is 3x3.
+
+=== Non-singular
+* Three equations have a unique solution.
+* Three planes intersect at a single point.
+* Equations are linearly independent.
+* Matrix rows are linearly independent.
+
+=== Singular
+==== Infinite solutions
+* Three planes intersect as a line.
+* At least two of the matrix rows are linearly dependent.
+
+==== No solution
+* Three planes do not intersect together. Any two might intersect but not all three.
+
+
+_Note: The constant terms in system of linear equations do not affect singular or non-singular nature._
+
+== Determinant of a square matrix
+
+=== 2x2 Matrix
+
+```python
+A = [[a11, a12],
+     [a21, a22]]
+```
+|A| = (a11 * a22) - (a12 * a21)
+
+
+=== 3x3 Matrix
+```python
+A = [[a11, a12, a13],
+     [a21, a22, a23]
+     [a31, a32, a33]]
+
+|A| = a11*|a22 a23| - a12*|a21 a23| + a13 * |a21 a22|
+	  |a32 a33|       |a31 a33|         |a31 a32|
+```
+
+
 
 
 
