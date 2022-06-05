@@ -67,6 +67,30 @@ A = [[a11, a12, a13],
 	  |a32 a33|       |a31 a33|         |a31 a32|
 ```
 
+== Rank of a System
+* For a system of information, rank is the amount of pieces of information. E.g. system1 = ['dog is white','cat is orange'] has rank 2. While system2 = ['dog is black', 'dog is black'] has rank 1.
+
+* For a system of linear equations, rank is pieces of information about the variables. E.g. 
+** a system with unique solution will have rank equal to number of variables.
+** a system with inifinite solution, rank is less than number of variables.
+** a system with no solution has rank = 0.
+
+=== Solution space and rank
+Rank = N - (solution space)
+
+=== Row Echelon Form
+A matrix which :
+1. Is a upper diagonal matrix.
+2. The diagonal elements are 1 or 0.
+==> Rank of matrix is number of pivots.
+
+=== Reduced Row Echelon Form
+A matrix which:
+1. Is a upper diagonal matrix.
+2. Each pivot is 1.
+3. Any number above the pivot is 0.
+==> Rank of matrix is number of pivots.
+
 
 
 
