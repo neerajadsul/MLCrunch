@@ -3,4 +3,7 @@
 __pycache__
 .ipynb_checkpoints/
 *.pyc
+# Temporary files for Draw.io
+*.bkp
+*.dtmp
 
