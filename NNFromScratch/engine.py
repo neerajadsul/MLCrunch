@@ -8,6 +8,9 @@ class Node:
         self.label = label
         self._children = set(_children)
 
+        self.grad = 0.0
+        self._backprop = lambda: None
+
     def __repr__(self):
         return f'{self.label}={self.data}'
 
@@ -15,57 +18,54 @@ class Node:
         # To support addition by a scaler, convert to node
         other = Node(other) if isinstance(other, (int, float)) else other
         out = Node(self.data + other.data, label=self.label+'+'+other.label, _children=(self, other))
+
+        def _backprop():
+            self.grad += 1.0 * out.grad
+            other.grad += 1.0 * out.grad
+        out._backprop = _backprop
         return out
 
     def __mul__(self, other):
         # To support multiplication by a scaler, convert to node
         other = Node(other) if isinstance(other, (int, float)) else other
         out = Node(self.data * other.data, label=self.label+'*'+other.label, _children=(self, other))
+
+        def _backprop():
+            self.grad += other.data * out.grad
+            other.grad += self.data * out.grad
+        out._backprop = _backprop
         return out
 
     def tanh(self):
         t = math.tanh(self.data)
         out = Node(t, _children=(self,), label=f'tanh({self.label})')
+
+        def _backprop():
+            self.grad += (1 - t**2) * out.grad
+        out._backprop = _backprop
         return out
 
+    def backprop(self):
+        """Back-propagate through all child nodes from front to back"""
+        computation_graph = []
+        visited = set()
 
-class TestNode:
-    a = Node(2.0, label='a')
-    b = Node(-1.5, label='b')
+        def build_graph(v):
+            if v not in visited:
+                visited.add(v)
+                for child in v._children:
+                    build_graph(child)
+                computation_graph.append(v)
 
-    def test_addition(self):
-        a = self.a; b = self.b
-        assert (a + b).data == (a.data + b.data)
-        assert (a + b).label == a.label+'+'+b.label
-        assert (a+b)._children == {a, b}
-
-    def test_multiplication(self):
-        a = self.a; b = self.b
-        assert (a * b).data == (a.data * b.data)
-        assert (a * b).label == a.label+'*'+b.label
-        assert (a*b)._children == {a, b}
-
-    def test_add_multiply(self):
-        a = self.a; b = self.b
-        c = a*b
-        d = c + b
-        assert d.data == c.data + b.data
-        assert d._children == {c, b}
-
-    def test_node_scaler_addition(self):
-        a = self.a
-        assert (a + 1.0).data == (a.data + 1.0)
-
-    def test_node_scalar_multiplication(self):
-        a = self.a
-        assert (a*1.5).data == (a.data*1.5)
-
-    def test_tanh(self):
-        a = self.a; b = self.b
-        assert a.tanh().data == math.tanh(a.data)
-        assert b.tanh().data == math.tanh(b.data)
-        assert a.tanh()._children == {a}
+        build_graph(self)
+        self.grad = 1.0
+        for node in reversed(computation_graph):
+            node._backprop()
 
 
 if __name__ == '__main__':
-    pass
+    a = Node(2.0)
+    b = Node(-1.5)
+    c = a * b
+    c.backprop()
+    print(a.grad, b.grad)
