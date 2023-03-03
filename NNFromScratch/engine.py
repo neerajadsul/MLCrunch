@@ -25,6 +25,22 @@ class Node:
         out._backprop = _backprop
         return out
 
+    def __neg__(self):
+        return self * -1
+
+    def __truediv__(self, other):
+        return self * (other**-1)
+
+    def exp(self):
+        x = self.data
+        t = math.exp(x)
+        out = Node(t, (self, ), label=f'exp({self.label})')
+
+        def _backprop():
+            self.grad += out.data* out.grad
+        out._backprop = _backprop
+        return out
+
     def __mul__(self, other):
         # To support multiplication by a scaler, convert to node
         other = Node(other) if isinstance(other, (int, float)) else other
@@ -33,6 +49,18 @@ class Node:
         def _backprop():
             self.grad += other.data * out.grad
             other.grad += self.data * out.grad
+        out._backprop = _backprop
+        return out
+
+    def __rmul__(self, other):
+        return self * other
+
+    def __pow__(self, other):
+        assert isinstance(other, (int, float)), "Power only supports scalar values."
+        out = Node(self.data**other, (self,), label=f'**{other}')
+
+        def _backprop():
+            self.grad = other * self.data**(other-1) * out.grad
         out._backprop = _backprop
         return out
 

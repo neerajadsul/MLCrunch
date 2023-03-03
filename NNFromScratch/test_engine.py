@@ -88,3 +88,21 @@ class TestNode:
         assert w2.grad == approx(0.0)
         assert x2.grad == approx(0.5)
 
+    def test_mult_same_node(self):
+        a = Node(2.0, label='a')
+        c = a * a
+        c.backprop()
+        assert a.grad == 2*a.data
+
+    def test_add_same_node(self):
+        a = Node(2.0, label='a')
+        b = Node(-1.5, label='b')
+        c = a + a + b
+        c.backprop()
+        assert a.grad == 2
+
+    def test_exp_backprop(self):
+        a = Node(2.0, label='a')
+        c = a.exp()
+        c.backprop()
+        assert a.grad == math.exp(a.data)
