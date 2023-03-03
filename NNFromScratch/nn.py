@@ -17,6 +17,10 @@ class Neuron:
     def parameters(self):
         return self.w + [self.b]
 
+    def zero_grad(self):
+        for p in self.parameters():
+            p.grad = 0.0
+
 
 class Layer:
     def __init__(self, n_inputs, n_outputs):
@@ -28,6 +32,10 @@ class Layer:
 
     def parameters(self):
         return [p for neuron in self.neurons for p in neuron.parameters()]
+
+    def zero_grad(self):
+        for p in self.neurons:
+            p.zero_grad()
 
 
 class MLP:
@@ -43,6 +51,10 @@ class MLP:
 
     def parameters(self):
         return [p for layer in self.layers for p in layer.parameters()]
+
+    def zero_grad(self):
+        for p in self.layers:
+            p.zero_grad()
 
 
 if __name__ == '__main__':
