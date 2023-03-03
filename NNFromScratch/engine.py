@@ -12,7 +12,7 @@ class Node:
         self._backprop = lambda: None
 
     def __repr__(self):
-        return f'{self.label}={self.data}'
+        return f'Node(data={self.data})'
 
     def __add__(self, other):
         # To support addition by a scaler, convert to node
@@ -24,6 +24,9 @@ class Node:
             other.grad += 1.0 * out.grad
         out._backprop = _backprop
         return out
+
+    def __sub__(self, other):
+        return self + (-other)
 
     def __radd__(self, other):
         return self + other

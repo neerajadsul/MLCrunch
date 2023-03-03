@@ -159,4 +159,11 @@ class TestNode:
         assert w2.grad == approx(0.0)
         assert x2.grad == approx(0.5)
 
-
+    def test_sub(self):
+        a = Node(2.0, label='a')
+        b = Node(-1.5, label='b')
+        c = a - b
+        c.backprop()
+        assert c.data == (a.data - b.data)
+        assert a.grad == 1
+        assert b.grad == -1
