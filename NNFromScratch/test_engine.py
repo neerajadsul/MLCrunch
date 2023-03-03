@@ -136,4 +136,27 @@ class TestNode:
         assert c.data == -a.data
         assert a.grad == -1
 
+    def test_exp_div_tanh_combination_backprop(self):
+        x1 = Node(2.0, label='x1')
+        x2 = Node(0.0, label='x2')
+        w1 = Node(-3.0, label='w1')
+        w2 = Node(1.0, label='w2')
+
+        b = Node(6.8813735881, label='b')
+
+        # Forward propagation
+        a1 = w1 * x1
+        a2 = w2 * x2
+        c = a1 + a2
+        n = c + b
+        e = (2*n).exp()
+        o = (-1 + e)/(1 + e)
+        # Backpropagation
+        o.backprop()
+
+        assert w1.grad == approx(1.0)
+        assert x1.grad == approx(-1.5)
+        assert w2.grad == approx(0.0)
+        assert x2.grad == approx(0.5)
+
 
