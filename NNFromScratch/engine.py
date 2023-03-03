@@ -12,7 +12,7 @@ class Node:
         self._backprop = lambda: None
 
     def __repr__(self):
-        return f'{self.label}={self.data}'
+        return f'Node(data={self.data})'
 
     def __add__(self, other):
         # To support addition by a scaler, convert to node
