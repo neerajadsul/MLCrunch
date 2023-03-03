@@ -25,6 +25,9 @@ class Node:
         out._backprop = _backprop
         return out
 
+    def __sub__(self, other):
+        return self + (-other)
+
     def __radd__(self, other):
         return self + other
 
