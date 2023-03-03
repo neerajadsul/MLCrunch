@@ -23,28 +23,30 @@ class Node:
         out = Node(self.data * other.data, label=self.label+'*'+other.label, _children=(self, other))
         return out
 
+    def tanh(self):
+        t = math.tanh(self.data)
+        out = Node(t, _children=(self,), label=f'tanh({self.label})')
+        return out
+
 
 class TestNode:
     a = Node(2.0, label='a')
     b = Node(-1.5, label='b')
 
     def test_addition(self):
-        a = self.a
-        b = self.b
+        a = self.a; b = self.b
         assert (a + b).data == (a.data + b.data)
         assert (a + b).label == a.label+'+'+b.label
         assert (a+b)._children == {a, b}
 
     def test_multiplication(self):
-        a = self.a
-        b = self.b
+        a = self.a; b = self.b
         assert (a * b).data == (a.data * b.data)
         assert (a * b).label == a.label+'*'+b.label
         assert (a*b)._children == {a, b}
 
     def test_add_multiply(self):
-        a = self.a
-        b = self.b
+        a = self.a; b = self.b
         c = a*b
         d = c + b
         assert d.data == c.data + b.data
@@ -57,6 +59,12 @@ class TestNode:
     def test_node_scalar_multiplication(self):
         a = self.a
         assert (a*1.5).data == (a.data*1.5)
+
+    def test_tanh(self):
+        a = self.a; b = self.b
+        assert a.tanh().data == math.tanh(a.data)
+        assert b.tanh().data == math.tanh(b.data)
+        assert a.tanh()._children == {a}
 
 
 if __name__ == '__main__':
