@@ -120,3 +120,20 @@ class TestNode:
         c.backprop()
         assert c.data == approx(1/a.data**2)
         assert a.grad == approx(-2*a.data**-3)
+
+    def test_truediv_backprop(self):
+        a = Node(2.0, label='a')
+        b = Node(-1.5, label='b')
+        c = a/b
+        c.backprop()
+        assert a.grad == (1/b.data)
+        assert b.grad == approx(-1*a.data/b.data**2)
+
+    def test_neg_backprop(self):
+        a = Node(2.0, label='a')
+        c = -a
+        c.backprop()
+        assert c.data == -a.data
+        assert a.grad == -1
+
+
