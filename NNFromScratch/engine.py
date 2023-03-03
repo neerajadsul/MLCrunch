@@ -15,6 +15,10 @@ class Node:
         out = Node(self.data + other.data, label=self.label+'+'+other.label, _children=(self, other))
         return out
 
+    def __mul__(self, other):
+        out = Node(self.data * other.data, label=self.label+'*'+other.label, _children=(self, other))
+        return out
+
 
 class TestNode:
     a = Node(2.0, label='a')
@@ -26,6 +30,13 @@ class TestNode:
         assert (a + b).data == (a.data + b.data)
         assert (a + b).label == a.label+'+'+b.label
         assert (a+b)._children == {a, b}
+
+    def test_multiplication(self):
+        a = self.a
+        b = self.b
+        assert (a * b).data == (a.data * b.data)
+        assert (a * b).label == a.label+'*'+b.label
+        assert (a*b)._children == {a, b}
 
 
 if __name__ == '__main__':
