@@ -25,6 +25,7 @@ class TestNode:
         b = self.b
         assert (a + b).data == (a.data + b.data)
         assert (a + b).label == a.label+'+'+b.label
+        assert (a+b)._children == {a, b}
 
 
 if __name__ == '__main__':
