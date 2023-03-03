@@ -106,3 +106,17 @@ class TestNode:
         c = a.exp()
         c.backprop()
         assert a.grad == math.exp(a.data)
+
+    def test_pow_positive_backprop(self):
+        a = Node(2.0, label='a')
+        c = a**2
+        c.backprop()
+        assert c.data == approx(a.data**2)
+        assert a.grad == approx(2*a.data)
+
+    def test_pow_negative_backprop(self):
+        a = Node(2.0, label='a')
+        c = a**-2
+        c.backprop()
+        assert c.data == approx(1/a.data**2)
+        assert a.grad == approx(-2*a.data**-3)
