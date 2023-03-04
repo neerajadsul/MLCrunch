@@ -7,12 +7,17 @@ class Neuron:
         self.w = [Node(random.uniform(-1, 1)) for _ in range(n_inputs)]
         self.b = Node(random.uniform(-1, 1))
 
-    def __call__(self, x):
+    def __call__(self, x, activation='tanh'):
         assert len(x) == len(self.w)
         out = self.b
         for wi, xi in zip(self.w, x):
             out += wi * xi
-        return out.tanh()
+        if activation == 'tanh':
+            return out.tanh()
+        elif activation == 'relu':
+            return out.relu()
+        else:
+            raise AttributeError(f'Unsupported activation function : {activation}')
 
     def parameters(self):
         return self.w + [self.b]
@@ -26,8 +31,8 @@ class Layer:
     def __init__(self, n_inputs, n_outputs):
         self.neurons = [Neuron(n_inputs) for _ in range(n_outputs)]
 
-    def __call__(self, x):
-        outs = [n(x) for n in self.neurons]
+    def __call__(self, x, activation='tanh'):
+        outs = [n(x, activation) for n in self.neurons]
         return outs[0] if len(outs) == 1 else outs
 
     def parameters(self):
@@ -44,9 +49,9 @@ class MLP:
         sz = [n_in] + n_hidden + [n_out]
         self.layers = [Layer(sz[i], sz[i + 1]) for i in range(len(sz) - 1)]
 
-    def __call__(self, x):
+    def __call__(self, x, activation='tanh'):
         for layer in self.layers:
-            x = layer(x)
+            x = layer(x, activation)
         return x
 
     def parameters(self):
