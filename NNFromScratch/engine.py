@@ -37,6 +37,10 @@ class Node:
     def __truediv__(self, other):
         return self * (other**-1)
 
+    def __gt__(self, other):
+        other = Node(other) if isinstance(other, (int, float)) else other
+        return self.data > other.data
+
     def exp(self):
         x = self.data
         t = math.exp(x)
@@ -96,6 +100,14 @@ class Node:
         for node in reversed(computation_graph):
             node._backprop()
 
+    def relu(self):
+        t = 0 if self.data < 0 else self.data
+        out = Node(t, (self,), label=f'ReLU({self.label})')
+
+        def _backprop():
+            self.grad += float(out.data > 0) * out.grad
+        out._backprop = _backprop
+        return out
 
 if __name__ == '__main__':
     a = Node(2.0)

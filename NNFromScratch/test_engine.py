@@ -167,3 +167,13 @@ class TestNode:
         assert c.data == (a.data - b.data)
         assert a.grad == 1
         assert b.grad == -1
+
+    def test_relu(self):
+        a = Node(2.0, label='a')
+        b = Node(-1.5, label='b')
+        c = a.relu()
+        c.backprop()
+        assert a.grad == 1
+        d = b.relu()
+        d.backprop()
+        assert b.grad == 0
