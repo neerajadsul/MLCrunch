@@ -21,3 +21,14 @@ A set of best practices and methods for an **efficient** end-to-end development 
 | Development time is spend in improving model with architecture.|
 | One or a few metrics are the target without any other constraints.|
 
+## Example ML Pipeline
+
+![](images/example-ml-pipeline.png)
+
+## ETL Pipeline
+
+![](images/etl-pipeline.png)
+
+## MLOps Levels based on Use-Case
+
+![](images/MLops-level-comparison.png)
