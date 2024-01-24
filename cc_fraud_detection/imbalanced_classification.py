@@ -23,7 +23,7 @@ import csv
 import numpy as np
 
 # Get the real data from https://www.kaggle.com/mlg-ulb/creditcardfraud/
-fname = r'/Users/neeraj/Datasets/Kaggle/creditcard.csv'
+fname = r'/mnt/nadlanhdd/ML_datasets/Kaggle/creditcard.csv'
 
 all_features = []
 all_targets = []
@@ -85,7 +85,9 @@ val_features /= std
 ## Build a binary classification model
 """
 
-from tensorflow import keras
+import keras
+
+
 
 model = keras.Sequential(
     [
@@ -118,7 +120,7 @@ model.compile(
     optimizer=keras.optimizers.Adam(1e-2), loss="binary_crossentropy", metrics=metrics
 )
 
-callbacks = [keras.callbacks.ModelCheckpoint("fraud_model_at_epoch_{epoch}.h5")]
+callbacks = [keras.callbacks.ModelCheckpoint("fraud_model_at_epoch_{epoch}.keras")]
 class_weight = {0: weight_for_0, 1: weight_for_1}
 
 model.fit(
